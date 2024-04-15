@@ -1,0 +1,27 @@
+FOR Sale : Newly built 5 BEDROOM Fully detached DUPLEX with bq, spacious rooms In a well secured estate
+
+Location: Ajah, Lagos.
+Price: 110m
+
+Features;
+- All Rooms Ensuite
+- Open top terrace with swimming pool
+- 24 Hours Security
+- Fitted Kitchen
+- Secured estate
+- Pop Ceiling
+- Water Heater
+-Fully Serviced
+In house speaker
+Green area
+For more Info
+Call:Agatha:08087813295.
+
+Content from Nigeria Property Centre
+Read more at: https://nigeriapropertycentre.com/for-sale/houses/detached-duplexes/lagos/ajah/1710095-newly-built-5-bedrooms-fully-detached-duplex-with-bq-pool-on-roof-top
+
+
+
+export default function Page({ params }: { params: { slug: string } }) {
+  return <div>My Post: {params.slug}</div>
+}

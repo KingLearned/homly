@@ -1,0 +1,339 @@
+"use client";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { api, formatDate, getToken, getUser } from "@/app/shared";
+import {
+  agentInterface,
+  agentReviewInterface,
+  propertyInterface,
+  userInterface,
+} from "@/app/shared/definedTypes";
+import axios from "axios";
+
+
+const AgentPage = () => {
+  const router = useRouter();
+  const currentUser: userInterface = getUser();
+
+  const [agentData, setAgentData] = useState<agentInterface | undefined>(
+    undefined
+  );
+  const [propertyData, setPropertyData] = useState<propertyInterface[]>([]);
+  const [reviewsData, setReviewsData] = useState<agentReviewInterface[]>();
+  const [status, setStatus] = useState("Loading...");
+
+  useEffect(() => {
+    !currentUser?.HMFirstname ? router.push("/") : "";
+    const fetchData = async () => {
+      try {
+        const headers = {
+          Authorization: getToken() ? getToken() : "",
+        };
+
+        const response = await axios.get(`${api}users/agent`, { headers });
+        const data = response?.data;
+        if(response?.data){
+            setAgentData(data.agent);
+            setPropertyData(data.properties);
+            setReviewsData(data.reviews);
+            setStatus(data.message);
+        }
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [currentUser?.HMFirstname, router]);
+
+  return !agentData ? (
+    <div className="p-12 max-sm:px-4 h-[90vh] flex flex-col items-center justify-center">
+      {status != "Loading..." ? (
+        <h1 className="text-center text-3xl">
+          Error 401:
+          <br /> {status}
+        </h1>
+      ) : (
+        <Image src="/Spin-1s-200px.svg" alt="" width={40} height={40} className="max-sm:w-1/2" />
+      )}
+    </div>
+  ) : (
+    <div className="p-12 max-sm:px-4">
+      <div className="box flex flex-col">
+        <div className="flex justify-center max-sm:flex-col my-3 shadow-md p-5 rounded-md">
+          <div className="flex max-sm:flex-col-reverse max-sm:items-center">
+            <div className="flex items-end max-sm:items-start">
+              <div className="mr-5 max-sm:mr-5">
+                <h2 className="font-bold my-4">
+                  Fullname:{" "}
+                  <span className="font-[100]">
+                    {agentData?.HMFirstname} {agentData?.HMLastname}
+                  </span>
+                </h2>
+                <h2 className="font-bold my-4">
+                  Username:{" "}
+                  <i className="font-[100]">@{agentData?.HMUsername}</i>
+                </h2>
+                <h2 className="font-bold my-4">
+                  Location:{" "}
+                  <span className="font-[100]">
+                    Portharcourt, Rivers State.
+                  </span>
+                </h2>
+                <h2 className="font-bold my-4">
+                  Agent type:{" "}
+                  <span className="font-bold text-green">
+                    {agentData?.HMType == "A"
+                      ? "Normal Agent"
+                      : "Representative"}
+                  </span>
+                </h2>
+              </div>
+            </div>
+            <div className="mx-7 flex flex-col justify-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={agentData?.HMImage}
+                className="w-[150px] shadow-md rounded-full h-[150px] object-fill"
+                alt=""
+                width={100}
+                height={100}
+              />
+              <Link
+                href={`/agent/edit-profile`}
+                className="submit_button py-3 px-5 shadow-lg hover:opacity-90 rounded-md text-white text-center self-center"
+              >
+                Edit Profile
+              </Link>
+            </div>
+          </div>
+
+          <div className="xl:w-1/4 max-sm:w-full xl:self-end max-sm:flex max-sm:justify-center">
+            <div className="flex gap-6 justify-center w-full">
+              <div className="my-4 sm:w-full w-1/3">
+                <p className="flex flex-col sm:flex-row items-baseline">
+                  <span className="font-bold mr-1 text-2xl">
+                    {agentData?.HMReviews == 0 ? 0 : agentData?.HMReviews}
+                  </span>
+                  Reviews
+                </p>
+                <hr className=" border-gray-400 border-[1.8px] w-full" />
+              </div>
+              <div className="my-4 sm:w-full w-1/3">
+                <p className="flex flex-col sm:flex-row items-baseline">
+                  <span className="font-bold mr-1 text-2xl">
+                    {agentData?.HMRating == 0 ? 0 : agentData?.HMRating}
+                  </span>
+                  Rating
+                </p>
+                <hr className=" border-gray-400 border-[1.8px]" />
+              </div>
+            </div>
+            <div className="flex gap-6 justify-center w-full">
+              <div className="my-4 sm:w-full w-1/3">
+                <p className="flex flex-col sm:flex-row items-baseline">
+                  <span className="font-bold mr-1 text-2xl">
+                    {agentData?.HMPublishes == 0 ? 0 : agentData?.HMPublishes}
+                  </span>
+                  Publishes
+                </p>
+                <hr className=" border-gray-400 border-[1.8px]" />
+              </div>
+              <div className="my-4 sm:w-full w-1/3">
+                <p className="flex flex-col sm:flex-row items-baseline">
+                  <span className="font-bold mr-1 text-2xl">
+                    {agentData?.HMSales == null ? 0 : agentData?.HMSales}
+                  </span>
+                  Sales
+                </p>
+                <hr className=" border-gray-400 border-[1.8px]" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="about flex flex-col gap-5 p-2 max-sm:px-4">
+          <div className="flex gap-1">
+            <Image
+              src="/cil_education.png"
+              alt=""
+              width={20}
+              height={20}
+              className="object-contain  self-start mt-0"
+            />
+            <p className="leading-loose">
+              <span className="font-bold">Educational Background:</span>
+              <br />
+              {agentData?.HMEducation}
+            </p>
+          </div>
+          <div className="flex gap-1">
+            <Image
+              src="/pajamas_work.png"
+              alt=""
+              width={20}
+              height={20}
+              className="object-contain  self-start mt-0"
+            />
+            <p className="leading-loose">
+              <span className="font-bold">Professional Achievements:</span>
+              <br />
+              {agentData?.HMProfession}
+            </p>
+          </div>
+          <div className="flex gap-1">
+            <Image
+              src="/fluent_thumb-like-dislike-16-regular.png"
+              alt=""
+              width={20}
+              height={20}
+              className="object-contain  self-start mt-0"
+            />
+            <p className="leading-loose">
+              <span className="font-bold">Likes & Dislikes:</span>
+              <br />
+              {agentData?.HMLikes}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* AGENT REVIEWS SECTION */}
+      <div className="flex flex-col mb-10">
+        <hr className="mt-4 mb-4 border-gray-400 border-1" />
+        <h1 className="mt-2 font-[900] text-center text-2xl">AGENT REVIEWS</h1>
+        <hr className="mt-4 mb-4 border-gray-400 border-1" />
+        {(reviewsData?.length ?? 0) < 1 ? (
+          <div className="h-[25vh] flex items-center justify-center">
+            <h1 className="text-center text-3xl">No reviews yet!</h1>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 sm:grid-rows-2 gap-8 mt-6">
+            {reviewsData?.map((review, index) => (
+              <div className="pt-2 shadow-md rounded-md p-3" key={index}>
+                <div className="flex gap-3 mb-2">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={review.HMImage}
+                    className="rounded-full"
+                    alt=""
+                    width={50}
+                    height={50}
+                  />
+                  <span>
+                    <h2 className="font-bold">
+                      {review.HMFirstname} {review.HMLastname}
+                    </h2>
+                    <span>{formatDate(`${review.Created}`)}</span>
+                  </span>
+                </div>
+                <p>{review.Content}</p>
+                <div className="flex gap-1 mt-2">
+                  {new Array(review.Star).fill(0).map((array, index) => (
+                    <Image
+                      key={index}
+                      src="/material-symbols_star.png"
+                      alt=""
+                      width={20}
+                      height={20}
+                      className="object-contain"
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* PROPERTY SECTION */}
+      <div>
+        <hr className="mt-4 mb-4 border-gray-400 border-1" />
+        <h1 className="mt-2 font-[900] text-center text-2xl">
+          PUBLISHED PROPERTIES
+        </h1>
+        <hr className="mt-4 mb-4 border-gray-400 border-1" />
+        {propertyData.length < 1 ? (
+          <div className="p-12 max-sm:px-4 h-[20vh] flex flex-col items-center justify-center">
+            <h1 className="text-center text-3xl">No published property yet!</h1>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-y-10 gap-x-5 mt-3 lg:grid-cols-4 lg:gap-8">
+            {propertyData.map((property, index) => (
+              <div
+                key={index}
+                className="home_item1 cursor-pointer shadow-lg p-5 rounded hover:scale-95 duration-300 delay-75"
+              >
+                <Link href={`/properties/single/${property.HPId}`}>
+                  <Image
+                    src={"/homeHouse1.png"}
+                    alt="home"
+                    width={500}
+                    height={40}
+                    className="rounded"
+                  />
+                </Link>
+
+                <div className="home_houses_description1 flex mt-5">
+                  <div className="houses_description_left1 text-sm w-3/4">
+                    <h6 className="break-inside-auto truncate">
+                      {property.HPTitle}
+                    </h6>
+                    <div className="location_icon_and_location1 flex gap-1 mt-1">
+                      <Image
+                        src="/location.png"
+                        alt="location"
+                        className="h-[20px] w-[20px]"
+                        width={20}
+                        height={10}
+                      />
+                      <span className="border-0 truncate">
+                        {property.HPState}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="houses_description_right text-right text-sm w-1/4">
+                    <span className="font-bold">
+                      {property.HPLegalFee > 1000 &&
+                      property.HPLegalFee < 1000000
+                        ? `${Math.round(property.HPLegalFee / 1000)}K`
+                        : property.HPLegalFee > 1000000
+                        ? `${Math.round(property.HPLegalFee / 1000000)}M`
+                        : `${property.HPLegalFee}K`}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex text-center text-xs capitalize mt-2">
+                  <div className="border-[1px] p-1 gap-2 w-full mr-1 flex justify-center">
+                    <Image
+                      src="/double-bed.png"
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="w-[20px]"
+                    />
+                    <p>{property.HPBedrooms} Bedroom</p>
+                  </div>
+                  <div className="border-[1px] p-1 gap-2 w-full  flex justify-center">
+                    <Image
+                      src="/toilet.png"
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="w-[20px]"
+                    />
+                    <p>{property.HPToilets} Toilet</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default AgentPage;

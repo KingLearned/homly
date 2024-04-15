@@ -1,0 +1,298 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --color-bg: rgba(0, 128, 129, 1);
+  --color-variant: rgba(255, 190, 6, 0.7);
+  --color-primary: rgba(255, 190, 6, 0.9);
+  --color-button: rgba(183, 229, 237, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+}
+
+body {
+  overflow-x: hidden !important;
+  font-family: "Plus jakarta Sans", sans-serif;
+}
+
+
+
+.bg-black-transparent {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Adjust the last value for transparency (0 to 1) */
+}
+
+.nav_search_container {
+  border: 1px solid var(--color-bg);
+}
+
+.nav_search_button {
+  background-color: var(--color-bg);
+  cursor: pointer;
+}
+
+.nav_right_side img {
+  cursor: pointer;
+}
+
+/* .footer_upper {
+  background: url('/footerbg.png');
+  object-fit: cover;
+} */
+
+.newsletter_container {
+  background-color: var(--color-primary);
+}
+
+.email_container {
+  border: 1px solid var(--color-bg);
+}
+
+.email_button_submit {
+  background-color: var(--color-bg);
+}
+
+.filter_display p {
+  border: 0.5px solid black;
+  cursor: pointer;
+}
+
+/* .footer_socials_links Link {
+  border: 1px solid gray;
+} */
+
+/* .home-container {
+  background: url('/homebg.png');
+  background-repeat: repeat-x;
+} */
+
+.input_and_microphone {
+  background-color: var(--color-primary);
+}
+
+.input_microphone {
+  background-color: var(--color-bg);
+}
+
+.submit_button {
+  background-color: var(--color-bg);
+  box-shadow: 0 4px 6px -1px rgba(158, 157, 157, 0.1),
+    0 2px 4px -1px rgba(158, 157, 157, 0.06);
+}
+
+.button_one_container {
+  border: 2px solid var(--color-bg);
+  background-color: var(--color-button);
+  box-shadow: 0px 0px 10px 0px var(--color-bg);
+}
+
+.button_two_container {
+  background-color: var(--color-bg);
+  box-shadow: 0px 0px 15px 0px var(--color-primary);
+}
+
+/* .All_houses {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+} */
+
+.main_swiper p {
+  border: 1.9px solid black;
+  cursor: pointer;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  padding-left: 4%;
+  padding-right: 4%;
+  margin-left: 8% !important;
+  margin-right: 8% !important;
+  font-size: 0.7rem;
+}
+
+.footer_swiper p {
+  border: 1.9px solid black;
+  cursor: pointer;
+  width: 100%;
+  /* padding-left: 4%;
+  padding-right: 4%;
+  margin-left: 8% !important;
+  margin-right: 8% !important; */
+  font-size: 0.7rem;
+}
+
+.slide_toggle p:active {
+  background-color: rgba(0, 128, 129, 1);
+  box-shadow: 0px 0px 10px 0px rgba(255, 190, 6, 1);
+  border: 1px solid rgb(43, 29, 29);
+}
+/* 
+.home_body_container input {
+  border: 0px solid;
+} */
+
+img {
+  object-fit: contain;
+}
+
+/* .register_container {
+  background-color: rgba(163, 163, 163, 0.3);
+} */
+
+.form_container input {
+  border: 1px solid rgba(211, 216, 222, 1);
+}
+
+/* .register-submit-button {
+  background-color: var(--color-bg);
+} */
+
+.login_container {
+  background-color: rgba(163, 163, 163, 0.3);
+}
+
+.login_button {
+  background-color: var(--color-bg);
+}
+
+.upload_header_upper h2 {
+  font-weight: 500;
+}
+
+.upload_images_container label {
+  background-image: url("/camera_bg.png");
+}
+
+.upload_image_left {
+  background-image: url("/camera_bg.png");
+}
+
+.upload_button {
+  background-color: var(--color-bg);
+  box-shadow: 0px 0px 10px 0px rgba(255, 190, 6, 1);
+  border: 0.5px solid rgba(0, 128, 129, 1);
+}
+
+.experience_input_image {
+  background-image: url("/camera_bg.png");
+}
+
+.roommate_dropdown_container {
+  margin-top: -20rem !important;
+  margin-left: -3rem !important;
+  background: rgba(63, 63, 63, 0.5);
+}
+
+.other_description_container {
+  border: 2px solid rgba(0, 128, 129, 1);
+  background-color: rgba(0, 128, 129, 0.2);
+}
+
+@media screen and (max-width: 1024px) {
+  .swiper-slide {
+    width: 30% !important;
+  }
+
+  .main_swiper p {
+    margin-left: 1px !important;
+    margin-right: 1px important;
+  }
+
+  .roommate_dropdown_container {
+    margin-top: -35rem !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .swiper-slide {
+    width: 40% !important;
+  }
+
+  .login_container {
+    margin-left: -1.3rem !important;
+    margin-top: -0.5rem !important;
+    padding-top: 1rem !important;
+  }
+
+  /* .register_container {
+    margin-left: -1.3rem !important;
+    margin-top: -0.5rem !important;
+    padding-top: 1rem !important;
+  } */
+
+  .roommate_dropdown_container {
+    margin-top: -40rem !important;
+    margin-left: -1.5rem !important;
+  }
+}
+
+/* EMMY STYLES */
+.emmy .page__container {
+  @apply p-4 flex flex-col text-sm lg:px-20 xl:px-40 2xl:px-60  md:w-[100vw] lg:w-[100vw] self-center;
+}
+.emmy h1 {
+  @apply font-bold py-2 text-lg;
+}
+.emmy h2 {
+  @apply font-bold py-2 text-lg;
+}
+
+.edit_button {
+  @apply flex items-center gap-1 ring-1 rounded-full px-4 text-sm font-light h-6 self-start;
+}
+.edit_img {
+  @apply object-contain self-start;
+}
+.show_all_button {
+  @apply flex gap-2 items-center justify-center ring-2 ring-yellow rounded-full bg-deep-green p-1 mt-8 mb-12 w-60 text-white;
+}
+.about_details {
+  @apply flex flex-col sm:flex-row border-b border-blue-900 pb-3;
+}
+.cart-container {
+  @apply bg-cover;
+  background-image: url("/cart-bg.png");
+  background-repeat: no-repeat;
+}
+.inspection-btn {
+  border: 2px solid var(--color-bg);
+  background-color: var(--color-button);
+  box-shadow: 0px 0px 10px 0px var(--color-bg);
+  padding: 10px;
+}
+.request_agency_fee_btn {
+  @apply py-2.5 px-5 text-xs font-bold text-gray-900  rounded-full border border-gray-900;
+}
+
+.swiper-container {
+  width: 480px;
+}
+
+@media screen and (min-width: 480px) {
+  .swiper-container {
+    width: 100%;
+    background: #000;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .swiper-container {
+    width: 640px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .swiper-container {
+    width: 768px;
+  }
+}

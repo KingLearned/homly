@@ -1,0 +1,27 @@
+# You can override the included template(s) by including variable overrides
+# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
+# Note that environment variables can be set in several places
+# See https://docs.gitlab.com/ee/ci/variables/#priority-of-environment-variables
+image: ilyasemenov/gitlab-ci-git-push
+before_script:
+  - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY"
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+variables:
+  APP_NAME: app
+  DOMAIN: https://www.gethomly.com/
+stages:
+  - deploy
+  - test
+deploy to master:
+  stage: deploy
+  environment:
+    name: production
+    url: $DOMAIN
+  only:
+    - main
+  script: git-push dokku@78.141.226.61:$APP_NAME
